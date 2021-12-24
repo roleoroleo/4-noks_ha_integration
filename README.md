@@ -57,12 +57,12 @@ It should look similar to this:
 - Click "Add Integration" in the lower-right corner
 - Select "4-NOKS Elios4you" integration
 <p align="center">
-<img src="https://user-images.githubusercontent.com/39277388/118390725-eadd7700-b630-11eb-87f9-9b03b1e587f4.png" width="400">
+<img src="https://user-images.githubusercontent.com/39277388/147362185-a1ac9b12-9c23-4b27-b8e2-9100834fbdd6.png" width="400">
 </p>
 
 - Enter the host/ip of your device
 <p align="center">
-<img src="https://user-images.githubusercontent.com/39277388/118390634-67bc2100-b630-11eb-8f73-008cad6b2b3d.png" width="400">
+<img src="https://user-images.githubusercontent.com/39277388/147362239-4c43ee48-7e5d-404c-bf9c-8f8a3fa6e338.png" width="400">
 </p>
 
 - Confirm and wait for the wizard completion
