@@ -1,0 +1,23 @@
+{
+  "title": "4-NOKS Elios4you device",
+  "config": {
+    "step": {
+      "user": {
+        "title": "4-NOKS Elios4you configuration",
+        "description": "Fill in device information",
+        "data": {
+          "host": "Host"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "cannot_get_serial": "Cannot get serial number",
+      "cannot_get_conf": "Cannot get configuration",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  }
+}

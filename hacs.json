@@ -1,0 +1,10 @@
+{
+    "name": "4-NOKS Home Assistant integration",
+    "render_readme": true,
+    "domains": [
+        "sensor"
+    ],
+    "iot_class": [
+        "Local Polling"
+    ]
+}
