@@ -11,7 +11,9 @@ from homeassistant.components.sensor import (DEVICE_CLASS_BATTERY,
                                              DEVICE_CLASS_ENERGY,
                                              DEVICE_CLASS_POWER,
                                              DEVICE_CLASS_TIMESTAMP,
-                                             SensorEntity)
+                                             SensorEntity,
+                                             STATE_CLASS_MEASUREMENT,
+                                             STATE_CLASS_TOTAL_INCREASING)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (CONF_HOST, CONF_NAME)
 from homeassistant.core import HomeAssistant, callback
@@ -80,14 +82,18 @@ class FourNOKSSensor(CoordinatorEntity, SensorEntity):
         self._um = sensor_um
         if (self._um.lower() == "kw"):
             self._device_class = DEVICE_CLASS_POWER
+            self._state_class = STATE_CLASS_MEASUREMENT
         elif (self._um.lower() == "kwh"):
             self._device_class = DEVICE_CLASS_ENERGY
+            self._state_class = STATE_CLASS_TOTAL_INCREASING
         elif (self._um.lower() == "dd/mm/yyyy hh:mm:ss"):
             self._um = ""
 #            self._device_class = DEVICE_CLASS_TIMESTAMP
             self._device_class = None
+            self._state_class = None
         else:
             self._device_class = None
+            self._state_class = None
 
     @property
     def name(self):
@@ -122,6 +128,11 @@ class FourNOKSSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         """Return the icon to use in the frontend."""
         return self._device_class
+
+    @property
+    def state_class(self):
+        """Return state class."""
+        return self._state_class
 
     @property
     def device_info(self):
