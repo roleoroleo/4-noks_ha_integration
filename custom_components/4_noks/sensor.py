@@ -6,7 +6,6 @@ import logging
 import time
 
 from datetime import timedelta
-from homeassistant.components import mqtt
 from homeassistant.components.sensor import (DEVICE_CLASS_BATTERY,
                                              DEVICE_CLASS_ENERGY,
                                              DEVICE_CLASS_POWER,
