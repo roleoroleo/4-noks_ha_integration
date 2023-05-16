@@ -4,7 +4,7 @@ import csv
 import logging
 import socket
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from io import StringIO
 
 from homeassistant.const import CONF_HOST
@@ -132,7 +132,15 @@ def get_dat(config, um):
                         if um:
                             dict_dat[row_dat[1]] = row_dat[3]
                         else:
-                            dict_dat[row_dat[1]] = row_dat[2]
+                            if (row_dat[3] == "dd/mm/yyyy hh:mm:ss"):
+                                rd2 = row_dat[2]
+                                try:
+                                    dict_dat[row_dat[1]] = datetime.strptime(row_dat[2], '%d/%m/%Y %H:%M:%S')
+                                except:
+                                    dict_dat[row_dat[1]] = datetime.strptime("01/01/1970 00:00:00", '%d/%m/%Y %H:%M:%S')
+                                    _LOGGER.error("Unable to parse date/time from device %s", host)
+                            else:
+                                dict_dat[row_dat[1]] = row_dat[2]
     except KeyError:
         _LOGGER.error("Unable to parse data from device %s", host)
         error = True

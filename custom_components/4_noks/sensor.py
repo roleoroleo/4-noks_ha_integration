@@ -6,13 +6,9 @@ import logging
 import time
 
 from datetime import timedelta
-from homeassistant.components.sensor import (DEVICE_CLASS_BATTERY,
-                                             DEVICE_CLASS_ENERGY,
-                                             DEVICE_CLASS_POWER,
-                                             DEVICE_CLASS_TIMESTAMP,
+from homeassistant.components.sensor import (SensorDeviceClass,
                                              SensorEntity,
-                                             STATE_CLASS_MEASUREMENT,
-                                             STATE_CLASS_TOTAL_INCREASING)
+                                             SensorStateClass)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (CONF_HOST, CONF_NAME)
 from homeassistant.core import HomeAssistant, callback
@@ -80,15 +76,15 @@ class FourNOKSSensor(CoordinatorEntity, SensorEntity):
         self._unique_id = self._name
         self._um = sensor_um
         if (self._um.lower() == "kw"):
-            self._device_class = DEVICE_CLASS_POWER
-            self._state_class = STATE_CLASS_MEASUREMENT
+            self._device_class = SensorDeviceClass.POWER
+            self._state_class = SensorStateClass.MEASUREMENT
         elif (self._um.lower() == "kwh"):
-            self._device_class = DEVICE_CLASS_ENERGY
-            self._state_class = STATE_CLASS_TOTAL_INCREASING
+            self._device_class = SensorDeviceClass.ENERGY
+            self._state_class = SensorStateClass.TOTAL_INCREASING
         elif (self._um.lower() == "dd/mm/yyyy hh:mm:ss"):
             self._um = ""
-#            self._device_class = DEVICE_CLASS_TIMESTAMP
-            self._device_class = None
+            self._device_class = SensorDeviceClass.DATE
+#            self._device_class = None
             self._state_class = None
         else:
             self._device_class = None
