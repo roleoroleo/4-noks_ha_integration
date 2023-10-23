@@ -186,20 +186,3 @@ def set_rel(config, value):
         return False
 
     return True
-def set_power_off_in_progress(hass, device_name):
-    hass.data[DOMAIN][device_name + END_OF_POWER_OFF] = dt_util.utcnow() + timedelta(seconds=5)
-
-def power_off_in_progress(hass, device_name):
-    return (
-        hass.data[DOMAIN][device_name + END_OF_POWER_OFF] is not None
-        and hass.data[DOMAIN][device_name + END_OF_POWER_OFF] > dt_util.utcnow()
-    )
-
-def set_power_on_in_progress(hass, device_name):
-    hass.data[DOMAIN][device_name + END_OF_POWER_ON] = dt_util.utcnow() + timedelta(seconds=5)
-
-def power_on_in_progress(hass, device_name):
-    return (
-        hass.data[DOMAIN][device_name + END_OF_POWER_ON] is not None
-        and hass.data[DOMAIN][device_name + END_OF_POWER_ON] > dt_util.utcnow()
-    )
