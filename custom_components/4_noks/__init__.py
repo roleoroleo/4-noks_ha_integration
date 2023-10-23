@@ -10,7 +10,7 @@ from homeassistant.core import HomeAssistant
 from .common import get_dat
 from .const import (CONF_SERIAL, DOMAIN)
 
-PLATFORMS = ["sensor"]
+PLATFORMS = ["sensor", "switch"]
 
 _LOGGER = logging.getLogger(__name__)
 

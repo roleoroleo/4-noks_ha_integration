@@ -150,6 +150,42 @@ def get_dat(config, um):
 
     return dict_dat
 
+def set_rel(config, value):
+    """Set relay."""
+    host = config[CONF_HOST]
+    error = False
+    command = b'@rel 0 ' + str(value).encode() + b'\n'
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(TCP_TIMEOUT)
+    try:
+        s.connect((host, DEFAULT_PORT))
+    except socket.error:
+        _LOGGER.error("Failed to connect to device %s", host)
+        error = True
+    except OSError:
+        _LOGGER.error("Failed to connect to device %s", host)
+        error = True
+
+    if error:
+        return False
+
+    try:
+        s.sendall(command)
+        data = s.recv(2048)
+        s.close()
+    except socket.error:
+        _LOGGER.error("Failed to get data from device %s", host)
+        error = True
+    except OSError:
+        _LOGGER.error("Failed to get data from device %s", host)
+        error = True
+
+    if error:
+        s.close()
+        return False
+
+    return True
 def set_power_off_in_progress(hass, device_name):
     hass.data[DOMAIN][device_name + END_OF_POWER_OFF] = dt_util.utcnow() + timedelta(seconds=5)
 
