@@ -6,7 +6,8 @@
         "title": "4-NOKS Elios4you configuration",
         "description": "Fill in device information",
         "data": {
-          "host": "[%key:common::config_flow::data::host%]"
+          "host": "[%key:common::config_flow::data::host%]",
+          "interval": "Update interval"
         }
       }
     },

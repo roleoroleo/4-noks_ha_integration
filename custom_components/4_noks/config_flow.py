@@ -10,12 +10,14 @@ from homeassistant.const import (CONF_HOST, CONF_NAME)
 from io import StringIO
 
 from .common import get_inf
-from .const import (CONF_SERIAL, DEFAULT_BRAND, DEFAULT_HOST, DOMAIN)
+from .const import (CONF_INTERVAL, CONF_SERIAL, DEFAULT_BRAND, DEFAULT_HOST,
+                    DEFAULT_INTERVAL, DOMAIN)
 
 _LOGGER = logging.getLogger(__name__)
 
 DATA_SCHEMA = {
     vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
+    vol.Required(CONF_INTERVAL, default=DEFAULT_INTERVAL): int,
 }
 
 
@@ -31,6 +33,7 @@ class FourNoksFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             host = user_input[CONF_HOST]
+            interval = user_input[CONF_INTERVAL]
 
             response = await self.hass.async_add_executor_job(get_inf, user_input)
             if response is None:

@@ -6,7 +6,8 @@
         "title": "Configurazione 4-NOKS Elios4you",
         "description": "Inserisci le tue informazioni",
         "data": {
-          "host": "Nome host/Indirizzo IP"
+          "host": "Nome host/Indirizzo IP",
+          "interval": "Intervallo di aggiornamento"
         }
       }
     },

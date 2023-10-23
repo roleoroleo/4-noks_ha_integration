@@ -1,11 +1,9 @@
 """Support for collecting sensors from 4-noks devices."""
 
-import async_timeout
 import datetime
 import logging
 import time
 
-from datetime import timedelta
 from homeassistant.components.sensor import (SensorDeviceClass,
                                              SensorEntity,
                                              SensorStateClass)
@@ -15,8 +13,6 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import event
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
-    DataUpdateCoordinator,
-    UpdateFailed,
 )
 
 from .common import get_dat
@@ -25,40 +21,24 @@ from .const import (CONF_SERIAL, DEFAULT_BRAND, DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: HomeAssistant, config: ConfigEntry, async_add_entities):
+async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities):
     """Set up energy sensors."""
 
-    async def async_update_data():
-        """Fetch data from socket endpoint."""
-
-        async with async_timeout.timeout(10):
-            dat = await hass.async_add_executor_job(get_dat, config.data, False)
-            if dat is None:
-                _LOGGER.error("No data available")
-
-        return dat
-
-    coordinator = DataUpdateCoordinator(
-        hass,
-        _LOGGER,
-        # Name of the data. For logging purposes.
-        name="4-noks sensor",
-        update_method=async_update_data,
-        # Polling interval. Will only be polled if there are subscribers.
-        update_interval=timedelta(seconds=60),
-    )
+    coordinator = hass.data[DOMAIN][config_entry.entry_id]["COORDINATOR"]
+    if coordinator is None:
+        _LOGGER.error("Unable to get coordinator")
+        return
 
     # Get a list of sensors and units of measurement
-    dat = await hass.async_add_executor_job(get_dat, config.data, True)
+    dat = await hass.async_add_executor_job(get_dat, config_entry.data, True)
+    if dat is None:
+        return
 
     entities = []
     for name, um in dat.items():
-        entities.append(FourNOKSSensor(coordinator, config, name, um))
+        entities.append(FourNOKSSensor(coordinator, config_entry, name, um))
 
     async_add_entities(entities)
-
-    # Fetch initial data so we have data when entities subscribe
-    await coordinator.async_refresh()
 
 
 class FourNOKSSensor(CoordinatorEntity, SensorEntity):
