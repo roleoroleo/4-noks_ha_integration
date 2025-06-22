@@ -79,7 +79,10 @@ class FourNOKSSensor(CoordinatorEntity, SensorEntity):
     def native_value(self):
         """Return the value of the sensor."""
         if self.coordinator.data is not None:
-            return self.coordinator.data[self._basename]
+            try:
+                return self.coordinator.data[self._basename]
+            except KeyError:
+                _LOGGER.error("Unable to read value for sensor %s", self._basename)
 
     @property
     def native_unit_of_measurement(self):
